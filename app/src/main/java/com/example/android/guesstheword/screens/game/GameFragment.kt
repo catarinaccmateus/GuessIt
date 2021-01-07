@@ -77,12 +77,16 @@ class GameFragment : Fragment() {
             binding.timerText.text = DateUtils.formatElapsedTime(nextTime)
         })
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-    }
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-      }
+        binding.gameViewModel = viewModel
+
+        //Added onClick methods directly in xml through data binding
+
+        //binding.correctButton.setOnClickListener {
+          //  viewModel.onCorrect()
+    //}
+      //  binding.skipButton.setOnClickListener {
+        //    viewModel.onSkip()
+      //}
 
         return binding.root
 
