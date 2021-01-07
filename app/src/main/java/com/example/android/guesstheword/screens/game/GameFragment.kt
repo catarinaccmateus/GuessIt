@@ -57,13 +57,15 @@ class GameFragment : Fragment() {
         Log.i("GameFragment", "View model variable initiated")
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
+        binding.setLifecycleOwner(this)
+        //Removed observer since used data binding with Live Data directly on layout
+         //  viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+         //    binding.scoreText.text = newScore.toString()
+         // })
 
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord ?: ""
-        })
+        //viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+        //    binding.wordText.text = newWord ?: ""
+        // })
 
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer { hasFinished ->
             if(hasFinished) {
@@ -72,21 +74,23 @@ class GameFragment : Fragment() {
             }
         })
 
-        viewModel.currentTime.observe(viewLifecycleOwner, Observer { nextTime ->
-            Log.i("Time", nextTime.toString())
-            binding.timerText.text = DateUtils.formatElapsedTime(nextTime)
-        })
+        //Removed this observer since added this login to ViewModel and then directly to layout
+        //  viewModel.currentTime.observe(viewLifecycleOwner, Observer { nextTime ->
+        //    Log.i("Time", nextTime.toString())
+        //  binding.timerText.text = DateUtils.formatElapsedTime(nextTime)
+        // })
 
         binding.gameViewModel = viewModel
+
 
         //Added onClick methods directly in xml through data binding
 
         //binding.correctButton.setOnClickListener {
-          //  viewModel.onCorrect()
-    //}
-      //  binding.skipButton.setOnClickListener {
+        //  viewModel.onCorrect()
+        //}
+        //  binding.skipButton.setOnClickListener {
         //    viewModel.onSkip()
-      //}
+       //}
 
         return binding.root
 
@@ -99,7 +103,7 @@ class GameFragment : Fragment() {
     private fun gameFinished() {
         val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
         // val currentScore = viewModel.score.value ?: 0
-       // action.setScore(currentScore) -> in case we dont add params in the function above
+        // action.setScore(currentScore) -> in case we dont add params in the function above
         findNavController(this).navigate(action)
     }
 
